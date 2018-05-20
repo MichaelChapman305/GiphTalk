@@ -1,0 +1,11 @@
+#!/bin/bash
+# To install: ln -s ../../hooks/pre-commit .git/hooks/pre-commit
+
+for file in $(git diff --diff-filter=d --cached --name-only | grep -E '\.(js|jsx)$')
+do
+  ./node_modules/.bin/eslint "$file" --fix
+  if [ $? -ne 0 ]; then
+    echo "ESLint failed on staged file '$file'. Please check your code and try again. You can run ESLint manually via npm run lint."
+    exit 1
+  fi
+done
