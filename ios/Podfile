@@ -8,6 +8,7 @@ target 'GiphTalk' do
   # Pods for GiphTalk
 
   pod 'Firebase/Core'
+  pod 'Firebase/Auth'	
 
   target 'GiphTalkTests' do
     inherit! :search_paths
