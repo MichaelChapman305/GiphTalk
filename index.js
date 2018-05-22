@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import App from './src/App';
+import Navigator from './src/Navigator.js';
 
-AppRegistry.registerComponent('GiphTalk', () => App);
+AppRegistry.registerComponent('GiphTalk', () => Navigator);

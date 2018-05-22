@@ -5,7 +5,7 @@ import { AccessToken, LoginManager } from 'react-native-fbsdk';
 
 import styles from './styles.js';
 
-export default class LoginScreen extends Component {
+export default class SignInScreen extends Component {
   onLoginOrRegister = () => {
   LoginManager.logInWithReadPermissions(['public_profile', 'email'])
     .then((result) => {
@@ -19,9 +19,10 @@ export default class LoginScreen extends Component {
       // Create a new Firebase credential with the token
       const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
       // Login with the credential
-      return firebase.auth().signInWithCredential(credential);
+      return firebase.auth().signInAndRetrieveDataWithCredential(credential);
     })
-    .then((user) => {
+      .then(data => {
+        this.props.navigation.navigate('App');
       //User info handling
     })
     .catch((error) => {
@@ -34,7 +35,7 @@ export default class LoginScreen extends Component {
     return (
       <View>
         <Text style={styles.container}>This is my Login Screen</Text>
-        <Button style={styles.container} title="Facebook" onPress={this.onLoginOrRegister} />
+        <Button style={styles.container} title="Facebook sign in" onPress={this.onLoginOrRegister} />
       </View>
     );
   }
