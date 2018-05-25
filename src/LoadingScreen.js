@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, StatusBar } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import firebase from 'react-native-firebase';
 
 import styles from './styles.js';
 
 export default class LoadingScreen extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
   componentDidMount() {
     const { navigate } = this.props.navigation;
 
@@ -22,7 +16,7 @@ export default class LoadingScreen extends Component {
   componentWillUnmount() {
     this.authSubscription();
   }
-  
+
   render() {
     return(
       <View style={styles.Container}>

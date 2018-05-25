@@ -7,12 +7,12 @@ import styles from './styles.js';
 export default class ActiveConversationScreen extends Component {
   signOutUser = async () => {
     try {
-        await firebase.auth().signOut();
-        this.props.navigation.navigate('Auth');
+      await firebase.auth().signOut();
+      this.props.navigation.navigate('Auth');
     } catch (e) {
-        console.log(e);
+      console.log(e);
     }
-}
+  }
 
   render() {
     return (

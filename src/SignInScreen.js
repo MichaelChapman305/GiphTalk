@@ -6,30 +6,29 @@ import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import styles from './styles.js';
 
 export default class SignInScreen extends Component {
-  onLoginOrRegister = () => {
-  LoginManager.logInWithReadPermissions(['public_profile', 'email'])
-    .then((result) => {
-      if (result.isCancelled) {
-        return Promise.reject(new Error('The user cancelled the request'));
-      }
-      // Retrieve access token
-      return AccessToken.getCurrentAccessToken();
-    })
-    .then((data) => {
-      // Create a new Firebase credential with the token
-      const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+  onLoginOrRegister = async () => {
+    const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
+
+    if (result.isCancelled) {
+      return Promise.reject(new Error('The user cancelled the request'));
+    }
+    // Retrieve access token
+    const data = await AccessToken.getCurrentAccessToken();
+
+    // Create a new Firebase credential with the token
+    const credential = await firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+
+    try {
       // Login with the credential
-      return firebase.auth().signInAndRetrieveDataWithCredential(credential);
-    })
-      .then(data => {
-        this.props.navigation.navigate('App');
-      //User info handling
-    })
-    .catch((error) => {
-      const { code, message } = error;
-      //Error handling
-    });
-}
+      const userData = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+
+      //User info handling with userData
+      this.props.navigation.navigate('App');
+      
+    } catch(err) {
+      throw new Error('Something went wrong retrieving user data');
+    }
+  }
 
   render() {
     return (
