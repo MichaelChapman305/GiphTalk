@@ -5,10 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 @import Firebase;
+
 #import "AppDelegate.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+
 
 @implementation AppDelegate
 
@@ -43,12 +45,13 @@
 
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
+         options:(NSDictionary<NSString *,id> *)options
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-  return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                        openURL:url
-                                              sourceApplication:sourceApplication
-                                                     annotation:annotation];
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation];
 }
 
 @end

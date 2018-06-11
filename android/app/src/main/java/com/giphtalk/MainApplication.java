@@ -3,6 +3,8 @@ package com.giphtalk;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.gettipsi.reactnativetwittersdk.TwitterReactPackage;
+import com.goldenowl.twittersignin.TwitterSigninPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.magus.fblogin.FacebookLoginPackage;
@@ -26,6 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new TwitterReactPackage(),
+            new TwitterSigninPackage(),
             new RNFirebasePackage(),
             new FBSDKPackage(),
             new FacebookLoginPackage()

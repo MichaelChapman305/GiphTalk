@@ -1,21 +1,30 @@
 import React, { Component } from 'react';
-import { StackNavigator, SwitchNavigator } from 'react-navigation';
+import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 
 import LoadingScreen from './LoadingScreen.js';
 import ActiveConversationScreen from './ActiveConversationScreen.js';
 import SignInScreen from './SignInScreen.js';
+import EmailLoginPage from './EmailLoginPage.js';
+import EmailSignInPage from './EmailSignInPage.js';
+import FacebookUsernameCreation from './FacebookUsernameCreation.js';
 
-const AppStack = StackNavigator({ Home: ActiveConversationScreen });
-const AuthStack = StackNavigator({ SignIn: SignInScreen });
+const AppStack = createStackNavigator({ Home: ActiveConversationScreen });
 
-const NavigationStack = SwitchNavigator(
+const AuthStack = createStackNavigator({
+  SignIn: SignInScreen,
+  EmailSignIn: EmailSignInPage,
+  EmailLogin: EmailLoginPage,
+  FacebookUsernameCreation,
+});
+
+const NavigationStack = createSwitchNavigator(
   {
     AuthLoading: LoadingScreen,
     App: AppStack,
-    Auth: AuthStack
+    Auth: AuthStack,
   },
   {
-    initialRouteName: 'AuthLoading'
+    initialRouteName: 'AuthLoading',
   }
 );
 

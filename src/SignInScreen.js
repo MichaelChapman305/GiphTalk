@@ -1,40 +1,78 @@
 import React, { Component } from 'react';
-import { Text, View, Button } from 'react-native';
-import firebase from 'react-native-firebase';
-import { AccessToken, LoginManager } from 'react-native-fbsdk';
+import { Text, View, Button, Modal, TouchableHighlight } from 'react-native';
 
+import firebaseAuth from './auth/FirebaseAuth.js';
+import onLoginOrRegisterFacebook from './auth/FacebookSignIn.js';
+import { getUsername } from './auth/CreateAndRetrieveUsername.js';
 import styles from './styles.js';
 
 export default class SignInScreen extends Component {
-  onLoginOrRegister = async () => {
-    const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
+  state = {
+    modalVisible: false,
+  };
 
-    if (result.isCancelled) {
-      return Promise.reject(new Error('The user cancelled the request'));
+  handleFacebookLogin = async () => {
+    const { navigate } = this.props.navigation;
+
+    const data = await onLoginOrRegisterFacebook();
+    const userData = await firebaseAuth('facebook', data);
+    const username = await getUsername(userData.user.uid);
+
+    if (userData.additionalUserInfo.isNewUser || !username) {
+      navigate('FacebookUsernameCreation', { userData });
+    } else {
+      navigate('Home', {
+        username: username,
+      });
     }
-    // Retrieve access token
-    const data = await AccessToken.getCurrentAccessToken();
+  };
 
-    // Create a new Firebase credential with the token
-    const credential = await firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+  emailLoginModal = visible => {
+    this.setState({ modalVisible: visible });
+  };
 
-    try {
-      // Login with the credential
-      const userData = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+  navigateLoginPage = () => {
+    this.setState({ modalVisible: false });
+    this.props.navigation.navigate('EmailLogin');
+  };
 
-      //User info handling with userData
-      this.props.navigation.navigate('App');
-      
-    } catch(err) {
-      throw new Error('Something went wrong retrieving user data');
-    }
-  }
+  navigateSignInPage = () => {
+    this.setState({ modalVisible: false });
+    this.props.navigation.navigate('EmailSignIn');
+  };
 
   render() {
+    const { modalVisible } = this.state;
     return (
       <View>
         <Text style={styles.container}>This is my Login Screen</Text>
-        <Button style={styles.container} title="Facebook sign in" onPress={this.onLoginOrRegister} />
+        <Button
+          style={styles.container}
+          title="Facebook sign in"
+          onPress={this.handleFacebookLogin}
+        />
+        <Button
+          style={styles.container}
+          title="Sign in with email"
+          onPress={this.emailLoginModal}
+        />
+        {modalVisible && (
+          <Modal animationType="slide" transparent={false} visible={modalVisible}>
+            <View style={{ marginTop: 22 }}>
+              <View>
+                <Button title="Already have an account?" onPress={this.navigateLoginPage} />
+                <Button title="Don't have an account yet?" onPress={this.navigateSignInPage} />
+                <TouchableHighlight
+                  onPress={() => {
+                    this.emailLoginModal(!modalVisible);
+                  }}
+                >
+                  <Text>Hide Modal</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </Modal>
+        )}
       </View>
     );
   }
