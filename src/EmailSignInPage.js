@@ -21,7 +21,7 @@ export default class EmailSignInPage extends Component {
 
     if (typeof userData === 'object') {
       const nameExists = await createUsername(username, userData.user.uid);
-
+      
       if (nameExists === 'error') {
         this.setState({ errorMessage: 'Username already exists, please choose a different name' });
       } else {
