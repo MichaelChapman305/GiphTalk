@@ -14,13 +14,13 @@ export default class FacebookUsernameCreation extends Component {
     const { navigate, getParam } = this.props.navigation;
 
     const data = getParam('userData');
-
-    const nameExists = await createUsername(username, data.user.uid);
+    const uid = data.user.uid;
+    const nameExists = await createUsername(username, uid);
 
     if (nameExists === 'error') {
       this.setState({ errorMessage: 'Username already exists, please choose a different name' });
     } else {
-      navigate('Home', { username });
+      navigate('Home', { uid });
     }
   };
 

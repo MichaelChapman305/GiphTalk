@@ -3,6 +3,8 @@ import { Text, View, Button, StyleSheet, Dimensions } from 'react-native';
 import firebase from 'react-native-firebase';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
+import { getUsername } from './auth/CreateAndRetrieveUsername.js';
+import { storeLocation } from './locations/StoreAndRetrieveLocations.js';
 import RetroMapStyles from './RetroMapStyles.json';
 
 let { width, height } = Dimensions.get('window');
@@ -13,9 +15,9 @@ const LONGITUDE = 0;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-export default class MapView extends Component {
+export default class MapViewScreen extends Component {
   state = {
-    username: '',
+    displayName: '',
     region: {
       latitude: LATITUDE,
       longitude: LONGITUDE,
@@ -27,8 +29,11 @@ export default class MapView extends Component {
   componentDidMount() {
     const { navigation } = this.props;
 
-    const username = navigation.getParam('username');
-    this.setState({ username });
+    const uid = navigation.getParam('uid');
+
+    getUsername(uid).then(username => {
+      this.setState({ displayName: username });
+    });
 
     navigator.geolocation.getCurrentPosition(
       position => {
@@ -75,11 +80,11 @@ export default class MapView extends Component {
   }
 
   render() {
-    const { region } = this.state;
+    const { region, displayName } = this.state;
     return (
       <View>
         <Text>This is my Active Conversation Screen</Text>
-        <Text>Hello, {this.state.username}!</Text>
+        <Text>Hello, {displayName}!</Text>
         <Button title="Sign out" onPress={this.signOutUser} />
         <MapView
           provider={ PROVIDER_GOOGLE }

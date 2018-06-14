@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 
 import LoadingScreen from './LoadingScreen.js';
-import MapView from './MapView.js';
+import MapViewScreen from './MapViewScreen.js';
 import SignInScreen from './SignInScreen.js';
 import EmailLoginPage from './EmailLoginPage.js';
 import EmailSignInPage from './EmailSignInPage.js';
 import FacebookUsernameCreation from './FacebookUsernameCreation.js';
 
-const AppStack = createStackNavigator({ Home: MapView });
+const AppStack = createStackNavigator({ Home: MapViewScreen });
 
 const AuthStack = createStackNavigator({
   SignIn: SignInScreen,

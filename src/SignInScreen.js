@@ -21,9 +21,8 @@ export default class SignInScreen extends Component {
     if (userData.additionalUserInfo.isNewUser || !username) {
       navigate('FacebookUsernameCreation', { userData });
     } else {
-      navigate('Home', {
-        username: username,
-      });
+      const uid = userData.user.uid;
+      navigate('Home', { uid });
     }
   };
 

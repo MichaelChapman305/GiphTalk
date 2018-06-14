@@ -19,9 +19,9 @@ export default class EmailLoginPage extends Component {
     const userData = await firebaseAuth('login', data);
 
     if (typeof userData === 'object') {
-      const username = await getUsername(userData.user.uid);
+      const uid = userData.user.uid;
 
-      navigate('Home', { username });
+      navigate('Home', { uid });
     } else {
       this.setState({ errorMessage: userData });
     }

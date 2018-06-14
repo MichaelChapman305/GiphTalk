@@ -18,14 +18,15 @@ export default class EmailSignInPage extends Component {
     const data = [email, password];
 
     const userData = await firebaseAuth('create user', data);
+    const uid = userData.user.uid;
 
     if (typeof userData === 'object') {
-      const nameExists = await createUsername(username, userData.user.uid);
-      
+      const nameExists = await createUsername(username, uid);
+
       if (nameExists === 'error') {
         this.setState({ errorMessage: 'Username already exists, please choose a different name' });
       } else {
-        navigate('Home', { username });
+        navigate('Home', { uid });
       }
     } else {
       this.setState({ errorMessage: userData });
