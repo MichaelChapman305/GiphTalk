@@ -13,7 +13,7 @@ const LONGITUDE = 0;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-export default class ActiveConversationScreen extends Component {
+export default class MapView extends Component {
   state = {
     username: '',
     region: {
