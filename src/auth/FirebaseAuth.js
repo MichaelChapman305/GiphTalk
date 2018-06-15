@@ -27,7 +27,7 @@ const firebaseAuth = async (type, data) => {
       const userData = await firebase
         .auth()
         .signInAndRetrieveDataWithEmailAndPassword(data[0], data[1]);
-        
+
       return userData;
     } catch (error) {
       const { code, message } = error;

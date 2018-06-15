@@ -20,8 +20,9 @@ export default class EmailLoginPage extends Component {
 
     if (typeof userData === 'object') {
       const uid = userData.user.uid;
+      const username = await getUsername(uid);
 
-      navigate('Home', { uid });
+      navigate('Home', { uid, username });
     } else {
       this.setState({ errorMessage: userData });
     }

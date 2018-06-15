@@ -22,7 +22,7 @@ export default class SignInScreen extends Component {
       navigate('FacebookUsernameCreation', { userData });
     } else {
       const uid = userData.user.uid;
-      navigate('Home', { uid });
+      navigate('Home', { uid, username });
     }
   };
 

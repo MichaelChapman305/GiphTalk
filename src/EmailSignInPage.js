@@ -26,7 +26,7 @@ export default class EmailSignInPage extends Component {
       if (nameExists === 'error') {
         this.setState({ errorMessage: 'Username already exists, please choose a different name' });
       } else {
-        navigate('Home', { uid });
+        navigate('Home', { uid, username });
       }
     } else {
       this.setState({ errorMessage: userData });

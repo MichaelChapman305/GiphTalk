@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import firebase from 'react-native-firebase';
 
+import { getUsername } from './auth/CreateAndRetrieveUsername.js';
 import styles from './styles.js';
 
 export default class LoadingScreen extends Component {
@@ -12,7 +13,9 @@ export default class LoadingScreen extends Component {
       if (user) {
         const uid = user._user.uid;
 
-        navigate('Home', { uid });
+        getUsername(uid).then(username => {
+          navigate('Home', { uid, username });
+        });
       } else {
         navigate('Auth');
       }

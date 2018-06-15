@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, TextInput, View, Button } from 'react-native';
 
-import { createUsername } from './auth/CreateAndRetrieveUsername.js';
+import { getUsername, createUsername } from './auth/CreateAndRetrieveUsername.js';
 
 export default class FacebookUsernameCreation extends Component {
   state = {
@@ -20,7 +20,8 @@ export default class FacebookUsernameCreation extends Component {
     if (nameExists === 'error') {
       this.setState({ errorMessage: 'Username already exists, please choose a different name' });
     } else {
-      navigate('Home', { uid });
+      const username = await getUsername(uid);
+      navigate('Home', { uid, username });
     }
   };
 
