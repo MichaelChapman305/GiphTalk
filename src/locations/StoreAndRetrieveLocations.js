@@ -10,8 +10,7 @@ const update = async (region, uid) => {
     longitude: region.longitude,
   });
 
-  const city = `${location.results[0].address_components[2].long_name},
-                ${location.results[0].address_components[5].short_name}`;
+  const city = `${location.results[0].address_components[2].long_name}, ${location.results[0].address_components[5].short_name}`;
 
   firebase
     .database()
@@ -36,16 +35,37 @@ const remove = async (region, uid) => {
     .remove();
 };
 
-const get = async city => {
+const get = async (city, userUid) => {
+  let markersArr = [];
+
   const markers = await firebase
     .database()
     .ref()
     .child('users')
     .orderByChild('region/city')
     .equalTo(city)
-    .on('value', snapshot => {});
+    .once('value');
 
-  return markers;
+  const objKeys = Object.keys(markers._value);
+  const objVals = Object.values(markers._value);
+
+  for (let i = 0; i < objKeys.length; i++) {
+    const uid = objKeys[i];
+    const username = objVals[i].username;
+    const coords = objVals[i].region.coords;
+
+    const data = {
+      key: uid,
+      username: username,
+      coords: {latitude: coords.latitude, longitude: coords.longitude},
+    }
+
+    if (data.key !== userUid) {
+      markersArr.push(data);
+    }
+  }
+
+  return markersArr;
 };
 
 export const updateLocation = update,

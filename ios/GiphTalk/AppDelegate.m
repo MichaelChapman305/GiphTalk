@@ -21,7 +21,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  // Use Firebase library to configure APIs
+  // Use Firebase library to configure APIs3
   [FIRApp configure];
   [GMSServices provideAPIKey:@"AIzaSyC7PpgrCi9Ym1RmhB1Ln3SCMuUFKlAGPHY"];
   NSURL *jsCodeLocation;
